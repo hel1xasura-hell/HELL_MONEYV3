@@ -129,6 +129,12 @@ const HellMoneyAPI = (() => {
     // sessions only (checked server-side via the Bearer token's role claim).
     sendMoney: (telegramUsername, amount, note) =>
       request('/bank/send-money', { method: 'POST', body: { telegramUsername, amount, note } }),
+    // Issues a loan from the Central Bank to a player by Telegram username.
+    // Backend should restrict this to Super Admin / Admin sessions and
+    // record it so it shows up in GET /bank/loans afterward.
+    giveLoan: (telegramUsername, amount, termMonths, note) =>
+      request('/bank/give-loan', { method: 'POST', body: { telegramUsername, amount, termMonths, note } }),
+    getLoans: (params) => request('/bank/loans', { params }),
   };
 
   // ---------------------------------------------------------------
@@ -192,4 +198,4 @@ const HellMoneyAPI = (() => {
     auth, system, users, economy, bank, families, companies, games, rankings, logs, admins, secrets, globalSearch,
   };
 })();
-      
+     
