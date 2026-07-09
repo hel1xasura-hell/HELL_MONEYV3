@@ -94,8 +94,15 @@ const MOCK = (() => {
     { id: 4, admin: 'Admin_Rae', action: 'Broadcast: "Weekend tax holiday" sent globally', time: '1d ago' },
   ];
 
+  const activeLoans = [
+    { id: 501, user: '@vexblackwood12', amount: 40000, interest: 4.2, termMonths: 6, issued: '2026-04-02', due: '2026-10-02', status: 'active' },
+    { id: 502, user: '@sablevane77', amount: 15000, interest: 4.2, termMonths: 3, issued: '2026-05-14', due: '2026-08-14', status: 'active' },
+    { id: 503, user: '@rookcross41', amount: 90000, interest: 3.8, termMonths: 12, issued: '2026-01-20', due: '2027-01-20', status: 'active' },
+    { id: 504, user: '@ashfrost03', amount: 8000, interest: 4.2, termMonths: 1, issued: '2026-06-01', due: '2026-07-01', status: 'overdue' },
+  ];
+
   return {
-    users, families, companies, games, transactions, revenueSeries,
+    users, families, companies, games, transactions, revenueSeries, activeLoans,
     securityLogs, systemLogs, adminActions,
     bank: { supply: 48_200_000, interestRate: 4.2, taxRate: 12, exemptWallet: 'Central Bank (Super Admin)' },
     taxConfig: { personalIncomeTax: 12, corporateTax: 18, luxuryTax: 25, taxExemptWallets: ['Central Bank'] },
@@ -108,3 +115,4 @@ const MOCK = (() => {
     },
   };
 })();
+         
