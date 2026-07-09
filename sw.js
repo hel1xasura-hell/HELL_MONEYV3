@@ -2,7 +2,7 @@
    Only caches the static app shell, not any real data — the mock/live
    data logic in js/app.js and js/api.js is untouched by this file. */
 
-const CACHE = 'hellmoney-shell-v1';
+const CACHE = 'hellmoney-shell-v2';
 const SHELL = [
   './',
   './index.html',
@@ -33,7 +33,16 @@ self.addEventListener('fetch', (event) => {
   // Only handle same-origin GET requests for the app shell.
   // Everything else (CDN scripts, future API calls) passes straight through.
   if (event.request.method !== 'GET' || new URL(event.request.url).origin !== location.origin) return;
+  // Network-first: always try to get the latest file. Only fall back to
+  // the cached copy if the network request fails (e.g. offline). This
+  // avoids ever silently serving a stale/broken cached file again.
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    fetch(event.request)
+      .then((response) => {
+        const copy = response.clone();
+        caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
